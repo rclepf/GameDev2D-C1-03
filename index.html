@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C1 · Fechando o design — Trilha GameDev 2D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="trilha.css">
+<style>
+  .quiz { list-style: none; padding: 0; counter-reset: q; }
+  .quiz > li { background: var(--pedra); border: 3px solid var(--borda); border-radius: 8px; padding: 14px 16px; margin: 14px 0; }
+  .quiz > li > p { font-weight: 700; margin: 0 0 8px; }
+  .quiz label { display: block; padding: 6px 10px; margin: 4px 0; border: 2px solid var(--borda); border-radius: 6px; cursor: pointer; }
+  .quiz label:hover { border-color: var(--ouro-esc); }
+  .quiz input { margin-right: 8px; accent-color: var(--ouro); }
+  .quiz label.certa { border-color: var(--porco); background: rgba(69,195,166,.12); }
+  .quiz label.errada { border-color: var(--perigo); background: rgba(255,122,122,.10); }
+  .quiz .expl { display: none; margin-top: 8px; font-size: 15px; color: var(--texto-2); }
+  .quiz li.respondida .expl { display: block; }
+  .placar { font: 700 16px var(--rotulo); color: var(--ouro); }
+</style>
+</head>
+<body>
+
+<header class="hud"><div class="dentro">
+  <span class="marca"><img src="img/vida.png" alt="">GameDev 2D · C1</span>
+  <nav>
+    <a href="#sala1">Playtest</a><a href="#sala2">Escopo</a><a href="#sala3">Pitch</a><a href="#sala4">Quiz</a>
+    <a href="#sala5">Entregas</a><a href="#sala6">Próximo módulo</a>
+  </nav>
+</div></header>
+
+<section class="abertura">
+  <div class="selo">DESIGN DE JOGOS 2D: DA IDEIA AO GDD · SITE 3 DE 3 · AULA FINAL (SÁBADO, PRESENCIAL)</div>
+  <h1>Fechando <em>o design</em>.</h1>
+  <p class="lead">Hoje o seu jogo enfrenta os primeiros jogadores de verdade: os colegas. Depois do playtest você corta o que não cabe, apresenta o jogo em um minuto e sai com o GDD aprovado — a planta de todos os módulos seguintes.</p>
+  <div class="palco" aria-hidden="true"><div class="sprite porco"></div><div class="sprite rei"></div></div>
+  <div class="inventario">
+    <div class="slot"><img src="img/porta.png" alt=""><div class="rot">Etapa anterior</div><div class="val"><a href="https://rclepf.github.io/GameDev2D-C1-02/">Site 2 · Estudo da semana</a></div></div>
+    <div class="slot"><img src="img/bau.png" alt=""><div class="rot">Traga</div><div class="val">Protótipo de papel, GDD e respostas às perguntas-guia</div></div>
+    <div class="slot entrega"><img src="img/chave.png" alt=""><div class="rot">Você sai com</div><div class="val">GDD aprovado (marco C1)</div></div>
+    <div class="slot"><img src="img/porta.png" alt=""><div class="rot">Próxima etapa</div><div class="val">P1/V1 · Arte do seu jogo</div></div>
+  </div>
+</section>
+
+<main>
+
+<section class="sala" id="sala1">
+  <div class="sala-cab"><span class="sala-num">SALA 01</span><h2>Playtest cruzado</h2></div>
+  <p class="objetivo">Objetivo: ver o seu protótipo jogado por quem nunca ouviu falar dele.</p>
+  <div class="passo">
+    <div class="passo-tit"><span class="moeda">1</span>Rodízio de mesas (60 min)</div>
+    <ol>
+      <li>Cada aluno deixa na mesa o protótipo e o cartão de regras.</li>
+      <li>Em rodadas de 12 minutos, você joga o protótipo de outro colega — sem explicação além do cartão.</li>
+      <li>O dono do jogo observa e preenche a ficha. Na rodada seguinte, os papéis giram.</li>
+    </ol>
+    <div class="porque"><b>Por quê:</b> na semana você testou com quem conhece você. Hoje o teste é com quem vai julgar o jogo pelo que ele mostra — como o público do itch.io no fim da trilha.</div>
+  </div>
+  <table>
+    <tr><th>Ficha de observação</th><th>Anote</th></tr>
+    <tr><td>Primeiros 30 segundos</td><td>O jogador entendeu o objetivo sozinho?</td></tr>
+    <tr><td>Hesitações</td><td>Onde parou para pensar ou perguntou algo?</td></tr>
+    <tr><td>Loop</td><td>Ele repetiu o ciclo que o seu GDD descreve?</td></tr>
+    <tr><td>Momento de diversão</td><td>Onde riu, comemorou ou se envolveu?</td></tr>
+    <tr><td>Pergunta final</td><td>“O que você mudaria?” — anote sem se defender.</td></tr>
+  </table>
+</section>
+
+<section class="sala" id="sala2">
+  <div class="sala-cab"><span class="sala-num">SALA 02</span><h2>Cortando o escopo</h2></div>
+  <p class="objetivo">Objetivo: garantir que o seu jogo caiba nos oito módulos — antes de desenhar o primeiro sprite.</p>
+  <p>Todo projeto cresce enquanto é feito. Quem não corta no papel corta depois, às pressas, o que não devia. A técnica <b>MoSCoW</b> classifica cada item da sua lista de assets em quatro grupos:</p>
+  <table>
+    <tr><th>Grupo</th><th>Significado</th><th>Exemplo no castelo</th></tr>
+    <tr><td><b>Must</b> (tem que ter)</td><td>Sem isso o loop não existe.</td><td>Rei correndo e pulando, martelo, porco patrulheiro, tileset.</td></tr>
+    <tr><td><b>Should</b> (deveria ter)</td><td>Importante, mas o jogo funciona sem.</td><td>Canhão, chefão, bomba.</td></tr>
+    <tr><td><b>Could</b> (poderia ter)</td><td>Só se sobrar tempo.</td><td>Caixa com porco escondido, janelas de cenário.</td></tr>
+    <tr><td><b>Won't</b> (fica de fora)</td><td>Não entra nesta versão.</td><td>Segundo chefão, loja de itens, modo dois jogadores.</td></tr>
+  </table>
+  <div class="passo">
+    <div class="passo-tit"><span class="moeda">2</span>Classifique a sua lista</div>
+    <p>Marque M, S, C ou W ao lado de cada asset do seu GDD. Depois revise com o instrutor: os <b>Must</b> e os <b>Should</b> precisam caber na tabela de orçamento do castelo.</p>
+    <div class="porque"><b>Por quê:</b> se algo atrasar na trilha, você já sabe o que cortar sem perder o jogo. O Won't não é ideia jogada fora: é a lista da versão 2.</div>
+  </div>
+</section>
+
+<section class="sala" id="sala3">
+  <div class="sala-cab"><span class="sala-num">SALA 03</span><h2>O pitch de um minuto</h2></div>
+  <p class="objetivo">Objetivo: apresentar o seu jogo em 60 segundos, como numa conversa com quem poderia publicá-lo.</p>
+  <table>
+    <tr><th>Tempo</th><th>Parte</th><th>Exemplo</th></tr>
+    <tr><td>10 s</td><td>Gancho: título + frase de venda</td><td>“Faxina Espacial: uma gata com vassoura limpa uma nave infestada de ratos-robô.”</td></tr>
+    <tr><td>20 s</td><td>Loop: o que o jogador faz</td><td>“Você pula entre as plataformas, varre os ratos e acha o cartão que abre a próxima ala.”</td></tr>
+    <tr><td>15 s</td><td>Diferencial: a sua mecânica nova ou o seu mundo</td><td>“O sabão é a arma especial: escorrega no chão e derruba o rato-rei.”</td></tr>
+    <tr><td>15 s</td><td>O que o playtest mostrou</td><td>“Os colegas não achavam o cartão; agora ele brilha.”</td></tr>
+  </table>
+  <div class="caixa dica"><span class="tag">Sem slides</span>Fale com o protótipo na mão. Se precisar de slide para explicar o loop, o loop ainda não está claro.</div>
+</section>
+
+<section class="sala" id="sala4">
+  <div class="sala-cab"><span class="sala-num">SALA 04</span><h2>Quiz de revisão</h2></div>
+  <p class="objetivo">Objetivo: conferir os conceitos do EAD. Responda cada pergunta; a explicação aparece em seguida.</p>
+  <ol class="quiz" id="quiz">
+    <li data-certa="2"><p>1. No modelo MDA, por qual camada o jogador percebe o jogo primeiro?</p>
+      <label><input type="radio" name="q1">Pelas mecânicas do código</label>
+      <label><input type="radio" name="q1">Pelas dinâmicas em jogo</label>
+      <label><input type="radio" name="q1">Pelas estéticas que sente</label>
+      <label><input type="radio" name="q1">Pela tecnologia do motor</label>
+      <div class="expl">O jogador sente primeiro (estética) e só depois entende as regras. O designer faz o caminho inverso: constrói mecânicas para provocar uma estética.</div></li>
+    <li data-certa="1"><p>2. “O chefão só perde vida com bomba” é um exemplo de qual elemento formal?</p>
+      <label><input type="radio" name="q2">Recurso</label>
+      <label><input type="radio" name="q2">Regra</label>
+      <label><input type="radio" name="q2">Objetivo</label>
+      <label><input type="radio" name="q2">Resultado</label>
+      <div class="expl">É uma regra: diz o que acontece quando o jogador faz algo. A bomba em si é um recurso; derrotar o chefão faz parte do objetivo.</div></li>
+    <li data-certa="3"><p>3. Qual destas frases descreve um loop central?</p>
+      <label><input type="radio" name="q3">Um castelo sombrio cheio de porcos</label>
+      <label><input type="radio" name="q3">Plataforma 2D para jovens de 14 anos</label>
+      <label><input type="radio" name="q3">Pixel art com paleta quente e escura</label>
+      <label><input type="radio" name="q3">Pular, martelar e abrir a porta seguinte</label>
+      <div class="expl">O loop se escreve com verbos: o que o jogador repete. As outras frases descrevem cenário, público e estética.</div></li>
+    <li data-certa="0"><p>4. Por que fazer o protótipo em papel antes de programar?</p>
+      <label><input type="radio" name="q4">Testa o loop cedo, quando mudar é barato</label>
+      <label><input type="radio" name="q4">Substitui o GDD na entrega final da UC</label>
+      <label><input type="radio" name="q4">É exigido pelo Godot antes de exportar</label>
+      <label><input type="radio" name="q4">Garante que a arte final fique mais bonita</label>
+      <div class="expl">No papel, uma mudança custa uma borracha; no código, uma tarde. Se o loop não funciona em turnos, dificilmente funciona em tempo real.</div></li>
+    <li data-certa="1"><p>5. Durante um playtest, o que o dono do jogo deve fazer?</p>
+      <label><input type="radio" name="q5">Explicar a regra sempre que o jogador hesitar</label>
+      <label><input type="radio" name="q5">Anotar onde o jogador hesita, sem intervir</label>
+      <label><input type="radio" name="q5">Jogar junto para mostrar o caminho correto</label>
+      <label><input type="radio" name="q5">Corrigir o jogador quando ele errar a regra</label>
+      <div class="expl">Se você explica, testa a sua explicação — não o jogo. As hesitações mostram exatamente o que precisa mudar no design.</div></li>
+    <li data-certa="2"><p>6. Na técnica MoSCoW, o que significa classificar um item como “Won't”?</p>
+      <label><input type="radio" name="q6">É obrigatório para o loop funcionar</label>
+      <label><input type="radio" name="q6">Deve entrar, mas o jogo vive sem ele</label>
+      <label><input type="radio" name="q6">Fica fora desta versão do jogo</label>
+      <label><input type="radio" name="q6">Entra apenas se sobrar tempo no fim</label>
+      <div class="expl">Won't é o que não entra agora. Must é obrigatório, Should é importante mas dispensável, Could entra se sobrar tempo.</div></li>
+  </ol>
+  <p class="placar" id="placar"></p>
+</section>
+
+<section class="sala" id="sala5">
+  <div class="sala-cab"><span class="sala-num">SALA 05</span><h2>Entregas e encerramento</h2></div>
+  <p class="objetivo">Objetivo: conferir tudo o que fecha a UC C1.</p>
+  <table>
+    <tr><th>Entrega</th><th>Onde</th><th>Situação</th></tr>
+    <tr><td><b>Atividade C1.1</b> — GDD do castelo</td><td>Classroom</td><td>Feita na aula inicial</td></tr>
+    <tr><td><b>Atividade C1.2</b> — GDD do seu jogo, foto do protótipo e registro do playtest</td><td>Classroom</td><td><b>Marco da UC</b> — revise com as anotações de hoje antes de entregar</td></tr>
+    <tr><td>Debate da semana</td><td>Classroom</td><td>Resposta + comentário em um colega</td></tr>
+    <tr><td>Pitch de um minuto</td><td>Em sala</td><td>Apresentado hoje</td></tr>
+  </table>
+  <div class="caixa checkpoint"><span class="tag">Critérios críticos do marco (todos obrigatórios)</span>
+    <ul class="lista-check">
+      <li>GDD em uma página, com o loop central descrito em uma frase.</li>
+      <li>GDD com condição de vitória, condição de derrota e controles.</li>
+      <li>Protótipo em papel testado por pelo menos duas pessoas, com registro do que foi observado.</li>
+      <li>Pelo menos um ajuste no design justificado pelo playtest.</li>
+    </ul>
+  </div>
+  <p><b>Aprovação na UC:</b> todos os critérios críticos, presença nos dois sábados (75% da carga horária) e conclusão das atividades do EAD.</p>
+</section>
+
+<section class="sala" id="sala6">
+  <div class="sala-cab"><span class="sala-num">SALA 06</span><h2>O que vem no próximo módulo</h2></div>
+  <p class="objetivo">Objetivo: chegar preparado à P1 (Pixel Art) ou à V1 (Arte Vetorial).</p>
+  <div class="mapa">
+    <div class="porta feita"><img src="img/porta.png" alt=""><b>C1</b>GDD ✓</div>
+    <div class="porta aqui"><img src="img/porta.png" alt=""><b>P1/V1</b>Arte ◂ próxima</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>P2/V2</b>Animação</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>P3/V3</b>Fase</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>C2</b>Engine</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>C3</b>Mecânicas</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>C4</b>Áudio</div>
+    <div class="porta futura"><img src="img/porta.png" alt=""><b>C5</b>Publicação</div>
+  </div>
+  <ul class="lista-check">
+    <li>Escolha a sua trilha: <b>Pixel Art</b> (desenho em grade, Aseprite) ou <b>Arte Vetorial</b> (formas, Illustrator).</li>
+    <li>Junte 6 a 10 imagens de referência para o herói e o cenário do seu jogo — o moodboard.</li>
+    <li>Separe do GDD a lista de assets marcada como <b>Must</b>: é por ela que a arte começa.</li>
+  </ul>
+  <nav class="vizinhos">
+    <a href="https://rclepf.github.io/GameDev2D-C1-02/"><small>Anterior · EAD</small>Site 2 · Estudo da semana</a>
+    <a class="prox" href="https://rclepf.github.io/GameDev2D-C1-01/"><small>Início da UC</small>Site 1 · Aula inicial</a>
+  </nav>
+</section>
+</main>
+
+<footer><b>Trilha GameDev 2D</b> · C1 Design de Jogos 2D: da Ideia ao GDD · Site 3 de 3 (Aula final) — Fechando o design<br>SENAI CTTI</footer>
+<script src="trilha.js"></script>
+<script>
+// Quiz: marca a escolhida, revela a certa e a explicação; uma tentativa por pergunta.
+const itens = document.querySelectorAll("#quiz > li");
+let acertos = 0, feitas = 0;
+itens.forEach((li) => {
+  const certa = +li.dataset.certa;
+  li.querySelectorAll("input").forEach((inp, i) => inp.addEventListener("change", () => {
+    if (li.classList.contains("respondida")) return;
+    li.classList.add("respondida");
+    const labels = li.querySelectorAll("label");
+    labels[certa].classList.add("certa");
+    if (i !== certa) labels[i].classList.add("errada"); else acertos++;
+    li.querySelectorAll("input").forEach((x) => (x.disabled = true));
+    feitas++;
+    if (feitas === itens.length) document.getElementById("placar").textContent = `Você acertou ${acertos} de ${itens.length}.`;
+  }));
+});
+</script>
+</body>
+</html>
