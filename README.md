@@ -1,6 +1,6 @@
 # GameDev2D-C1-03 — Fechando o design
 
-**Trilha GameDev 2D · SENAI CTTI**
+**Jornada GameDev 2D · SENAI CTTI**
 C1 · Design de Jogos 2D: da Ideia ao GDD · Site 3 de 3 · Aula final (sábado, presencial)
 
 Complemento e encerramento da UC: playtest cruzado com ficha de observação, corte de escopo com MoSCoW, pitch de um minuto, quiz de revisão interativo, entregas e preparação para a P1/V1.
@@ -21,7 +21,7 @@ Complemento e encerramento da UC: playtest cruzado com ficha de observação, co
 ## Estrutura do repositório
 
 - `index.html` — a página do site
-- `trilha.css` — identidade visual da trilha (tema “castelo”, comum a todos os sites)
+- `trilha.css` — identidade visual da jornada (tema “castelo”, comum a todos os sites)
 - `trilha.js` — realce de código GDScript e botão “copiar”
 - `img/` — sprites, telas do jogo modelo e ícones
 
@@ -40,7 +40,7 @@ Basta abrir o `index.html` no navegador (duplo clique) ou servir a pasta com `py
 ## Créditos
 
 - Material didático: Rodolfo Clepf de Carvalho — SENAI CTTI (FIEMG), Belo Horizonte.
-- Jogo modelo *O Rei e os Porcos*: desenvolvido em Godot 4 para a trilha.
+- Jogo modelo *O Rei e os Porcos*: desenvolvido em Godot 4 para a jornada.
 - Artes e áudios do jogo modelo: pacote da série *“Criando um jogo DO ZERO com Construct 3”* (Daniel Valadares, canal Gamecraft).
 - Fontes: Atkinson Hyperlegible, Bricolage Grotesque e JetBrains Mono (Google Fonts).
 - Materiais externos citados nos sites pertencem aos seus autores e instituições.
